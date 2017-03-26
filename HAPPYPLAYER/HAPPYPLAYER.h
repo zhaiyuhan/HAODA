@@ -1,15 +1,25 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
-#include "ui_HAPPYPLAYER.h"
+#include <QtWidgets\QMainWindow>
+#include "Foundation\WindowCompositionAttribute.h"
+#include "Foundation\BaseView.h"
+#include <qpalette.h>
 
 class HAPPYPLAYER : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	HAPPYPLAYER(QWidget *parent = Q_NULLPTR);
+	explicit HAPPYPLAYER(QWidget *parent = Q_NULLPTR);
 
+protected:
+	void InitView();
+
+	void EnableTransparentBackground(bool ifEnable);
+	void EnableGaussianBlur(bool ifEnable);
+	void EnableWindowShadow(bool ifEnable);
+	void EnableAnimation(bool ifEnable);
+	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
 private:
-	Ui::HAPPYPLAYERClass ui;
+
 };

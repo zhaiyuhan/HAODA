@@ -38,6 +38,12 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="View">
+      <UniqueIdentifier>{07ea0ec6-c7ed-43ce-b808-d0f3294662c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Foundation">
+      <UniqueIdentifier>{70b3420b-7937-413b-ad1c-b711ca8f734e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,24 +64,33 @@
     <ClCompile Include="GeneratedFiles\qrc_HAPPYPLAYER.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BaseView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BaseView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\BaseView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_HAPPYPLAYER.h">
-      <Filter>Generated Files</Filter>
+    <ClInclude Include="Foundation\WindowCompositionAttribute.h">
+      <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="HAPPYPLAYER.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="HAPPYPLAYER.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="HAPPYPLAYER.qrc">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Foundation\BaseView.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
