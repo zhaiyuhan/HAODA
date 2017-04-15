@@ -2,10 +2,16 @@
 
 #include <QtWidgets\QMainWindow>
 #include "Foundation\WindowCompositionAttribute.h"
-#include "Foundation\BaseView.h"
+#include "Foundation\BaseView\BaseView.h"
+#include "BaseControlWidget\TitleBar.h"
+
+#include "qevent.h"
+#include <dwmapi.h>
+#include <windowsx.h>
+#include <qt_windows.h>
 #include <qpalette.h>
 
-class HAPPYPLAYER : public QMainWindow
+class HAPPYPLAYER : public BaseView
 {
 	Q_OBJECT
 
@@ -14,12 +20,10 @@ public:
 
 protected:
 	void InitView();
-
-	void EnableTransparentBackground(bool ifEnable);
-	void EnableGaussianBlur(bool ifEnable);
-	void EnableWindowShadow(bool ifEnable);
-	void EnableAnimation(bool ifEnable);
 	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+	void changeEvent(QEvent *event);
+	void resizeEvent(QResizeEvent *event);
+	/*void paintEvent(QPaintEvent * event);*/
 private:
-
+	TitleBar *m_maintitlebar;
 };

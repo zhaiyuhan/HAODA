@@ -1,121 +1,59 @@
 #include "stdafx.h"
 #include "HAPPYPLAYER.h"
-#include <dwmapi.h>
-#pragma comment (lib,"Dwmapi.lib")
+
+
 HAPPYPLAYER::HAPPYPLAYER(QWidget *parent)
-	: QMainWindow(parent)
+	: BaseView(parent)
 {
 	InitView();
 }
 
 void HAPPYPLAYER::InitView()
 {
-	this->setMinimumSize(1024, 768);
-	this->setWindowFlags(Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::FramelessWindowHint);
-	EnableWindowShadow(true);
-	EnableGaussianBlur(true);
-	EnableAnimation(true);
+	this->Init_View(1024, 768, QColor(255,255,255,100), true, true, true);
+	m_maintitlebar = new TitleBar(this);
+	setMouseTracking(true);
 }
 
-void HAPPYPLAYER::EnableTransparentBackground(bool ifEnable)
-{
-	QPalette p = palette();
-	p.setColor(QPalette::Background, QColor(0x00, 0xff, 0x00, 0x00));
-	this->setPalette(p);
-}
-
-void HAPPYPLAYER::EnableGaussianBlur(bool ifEnable)
-{
-	if (ifEnable)
-	{
-		EnableTransparentBackground(true);
-		HWND hWnd = HWND(winId());
-		HMODULE hUser = GetModuleHandle(L"user32.dll");
-		if (hUser)
-		{
-			pfnSetWindowCompositionAttribute setWindowCompositionAttribute =
-				(pfnSetWindowCompositionAttribute)GetProcAddress(hUser, "SetWindowCompositionAttribute");
-			if (setWindowCompositionAttribute)
-			{
-				ACCENT_POLICY accent = { ACCENT_ENABLE_BLURBEHIND, 0, 0, 0 };
-				WINDOWCOMPOSITIONATTRIBDATA data;
-				data.Attrib = WCA_ACCENT_POLICY;
-				data.pvData = &accent;
-				data.cbData = sizeof(accent);
-				setWindowCompositionAttribute(hWnd, &data);
-			}
-		}
-	}
-}
-
-void HAPPYPLAYER::EnableWindowShadow(bool ifEnable)
-{
-	if(ifEnable)
-	{ 
-	BOOL bEnable = false;
-	::DwmIsCompositionEnabled(&bEnable);
-	if (bEnable)
-	{
-		DWMNCRENDERINGPOLICY ncrp = DWMNCRP_ENABLED;
-		::DwmSetWindowAttribute((HWND)winId(), DWMWA_NCRENDERING_POLICY, &ncrp, sizeof(ncrp));
-		MARGINS margins = { -1 };
-		::DwmExtendFrameIntoClientArea((HWND)winId(), &margins);
-	}
-	}
-}
-
-void HAPPYPLAYER::EnableAnimation(bool ifEnable)
-{
-	if (ifEnable)
-	{	
-	HWND hWnd = (HWND)this->winId();
-	DWORD style = ::GetWindowLong(hWnd, GWL_STYLE);
-	SetWindowLong(hWnd, GWL_STYLE, style | WS_MAXIMIZEBOX | WS_THICKFRAME | WS_CAPTION);
-	}
-}
 
 bool HAPPYPLAYER::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
 	Q_UNUSED(eventType)
-
 		MSG* msg = reinterpret_cast<MSG*>(message);
-
 	int xPos = 0, yPos = 0;
 	switch (msg->message)
 	{
 	case WM_NCHITTEST:
 		xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
 		yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
-		if (this->childAt(xPos, yPos) == 0)
-		{
+		if (childAt(xPos, yPos) != NULL)
+			return QWidget::nativeEvent(eventType, message, result);
+		if (Qt::WindowFullScreen != windowState())
 			*result = HTCAPTION;
-		}
-		else {
-			return false;
-		}
+		if (Qt::WindowFullScreen == windowState())
+			*result = HTCLIENT;
 		if (xPos > 0 && xPos < 5)
 			*result = HTLEFT;
-		if (xPos >(this->width() - 5) && xPos < (this->width() - 0))
+		if (xPos > (this->width() - 5) && xPos < (this->width() - 0))
 			*result = HTRIGHT;
 		if (yPos > 0 && yPos < 5)
 			*result = HTTOP;
-		if (yPos >(this->height() - 5) && yPos < (this->height() - 0))
+		if (yPos > (this->height() - 5) && yPos < (this->height() - 0))
 			*result = HTBOTTOM;
 		if (xPos > 0 && xPos < 5 && yPos > 0 && yPos < 5)
 			*result = HTTOPLEFT;
-		if (xPos >(this->width() - 5) && xPos < (this->width() - 0) && yPos > 0 && yPos < 5)
+		if (xPos > (this->width() - 5) && xPos < (this->width() - 0) && yPos > 0 && yPos < 5)
 			*result = HTTOPRIGHT;
 		if (xPos > 0 && xPos < 5 && yPos >(this->height() - 5) && yPos < (this->height() - 0))
 			*result = HTBOTTOMLEFT;
-		if (xPos >(this->width() - 5) && xPos < (this->width() - 0) && yPos >(this->height() - 5) && yPos < (this->height() - 0))
+		if (xPos > (this->width() - 5) && xPos < (this->width() - 0) && yPos >(this->height() - 5) && yPos < (this->height() - 0))
 			*result = HTBOTTOMRIGHT;
 
 		return true;
 		break;
 
 	case WM_GETMINMAXINFO:
-		if (::IsZoomed(msg->hwnd)) {
-
+		/*if (::IsZoomed(msg->hwnd)) {
 			RECT frame = { 0, 0, 0, 0 };
 			AdjustWindowRectEx(&frame, WS_OVERLAPPEDWINDOW, FALSE, 0);
 			frame.left = abs(frame.left);
@@ -125,14 +63,95 @@ bool HAPPYPLAYER::nativeEvent(const QByteArray & eventType, void * message, long
 		else {
 			this->setContentsMargins(0, 0, 0, 0);
 		}
+		*result = ::DefWindowProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);*/
+	{
+		MINMAXINFO *mmi = (MINMAXINFO*)(msg->lParam);
 
-		*result = ::DefWindowProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);
+		QRect desktop = qApp->desktop()->availableGeometry(this);
+		QRect desktopRect = qApp->desktop()->screenGeometry(this);
+
+		mmi->ptMaxSize.x = desktop.width();
+		mmi->ptMaxSize.y = desktop.height();
+
+		int desktopLeft = desktop.left() - desktopRect.left();
+		int desktopTop = desktop.top() - desktopRect.top();
+
+		mmi->ptMaxPosition.x = desktopLeft;
+		mmi->ptMaxPosition.y = desktopTop;
+
+		mmi->ptMinTrackSize.x = 1024;
+		mmi->ptMinTrackSize.y = 768;
+
+		mmi->ptMaxTrackSize.x = desktop.width();
+		mmi->ptMaxTrackSize.y = desktop.height();
+
+		*result = 0;
+
+		return true;
+	}
 		break;
 
+	case WM_SIZE:
+		switch (msg->wParam)
+		{
+		case SIZE_MAXIMIZED:
+			break;
+		case SIZE_RESTORED:
+			break;
+		}
+		break;
 	case WM_NCCALCSIZE:
 		return true;
 		break;
+	case WM_SETFOCUS:
+		m_maintitlebar->setStatus(NORMAL);
+		update();
+		break;
+	case WM_KILLFOCUS:
+		m_maintitlebar->setStatus(NOSTATUS);
+		update();
+		break;
+	case WM_LBUTTONDBLCLK:
+		if (Qt::WindowFullScreen == windowState())
+			this->showNormal();
+		break;
 	default:
-		return false;
+		return QWidget::nativeEvent(eventType, message, result);
+	}
+	return QWidget::nativeEvent(eventType, message, result);
+}
+
+void HAPPYPLAYER::changeEvent(QEvent * event)
+{
+	Q_UNUSED(event);
+	if (event->type() == QEvent::WindowStateChange)
+	{
+		if (Qt::WindowMaximized == windowState()) m_maintitlebar->setbtnMaxType(true);
+		if (Qt::WindowMaximized != windowState()) m_maintitlebar->setbtnMaxType(false);
+		if (Qt::WindowFullScreen == windowState()) m_maintitlebar->setbtnMaxType(true);
+		if (Qt::WindowFullScreen != windowState()) m_maintitlebar->setbtnMaxType(false);
 	}
 }
+
+void HAPPYPLAYER::resizeEvent(QResizeEvent * event)
+{
+	QWidget::resizeEvent(event);
+	m_maintitlebar->setFixedWidth(this->width());
+	m_maintitlebar->move(0, 0);
+}
+
+/*void HAPPYPLAYER::paintEvent(QPaintEvent * event)
+{
+	Q_UNUSED(event);
+	QPainter p(this);
+	p.setRenderHint(QPainter::Antialiasing, true);
+	p.fillRect(this->rect(), QColor(255, 255, 255, 50));
+}*/
+
+
+
+
+
+
+
+

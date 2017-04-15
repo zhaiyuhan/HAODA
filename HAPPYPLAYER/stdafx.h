@@ -5,3 +5,4 @@
 #include <qpushbutton.h>
 #include <qpalette.h>
 #include "Foundation\WindowCompositionAttribute.h"
+#include "Foundation\CustomShadowEffect.h"

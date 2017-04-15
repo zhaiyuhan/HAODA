@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>Res_ButtonForTitleBar/buttonCloseENTER.png</file>
+        <file>Res_ButtonForTitleBar/buttonCloseNORMAL.png</file>
+        <file>Res_ButtonForTitleBar/buttonClosePRESS.png</file>
+        <file>Res_ButtonForTitleBar/buttonMax.png</file>
+        <file>Res_ButtonForTitleBar/buttonMinENTER.png</file>
+        <file>Res_ButtonForTitleBar/buttonMinNOMAL.png</file>
+        <file>Res_ButtonForTitleBar/buttonMinPRESS.png</file>
+    </qresource>
+    <qresource prefix="/btnForTitleBar">
+        <file>Res_ButtonForTitleBar/btnResize.png</file>
+        <file>Res_ButtonForTitleBar/btnResizePress.png</file>
+        <file>Res_ButtonForTitleBar/btnResizeEnter.png</file>
+        <file>Res_ButtonForTitleBar/btnNoStatus.png</file>
+        <file>Res_ButtonForTitleBar/btnResizeEnter_Full.png</file>
+        <file>Res_ButtonForTitleBar/btnResizePress_Full.png</file>
+    </qresource>
+</RCC>

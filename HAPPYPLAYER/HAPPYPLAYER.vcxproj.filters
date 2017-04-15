@@ -44,6 +44,12 @@
     <Filter Include="Foundation">
       <UniqueIdentifier>{70b3420b-7937-413b-ad1c-b711ca8f734e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BaseControlWidget">
+      <UniqueIdentifier>{d22577e6-45a6-4614-817c-9cf0dfcf270f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Foundation\BaseView">
+      <UniqueIdentifier>{65363cfa-bb6c-4529-aec2-4bf84389f9eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -64,14 +70,53 @@
     <ClCompile Include="GeneratedFiles\qrc_HAPPYPLAYER.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TitleBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TitleBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseControlWidget\TitleBar.cpp">
+      <Filter>BaseControlWidget</Filter>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_BaseView.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_BaseView.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Foundation\BaseView.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Foundation\BaseView\BaseView.cpp">
+      <Filter>Foundation\BaseView</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ButtonForTitleBar.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ButtonForTitleBar.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseControlWidget\ButtonForTitleBar.cpp">
+      <Filter>BaseControlWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_ButtonForTitleBar.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\CustomShadowEffect.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CustomShadowEffect.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CustomShadowEffect.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MOON.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MOON.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseControlWidget\MOON.cpp">
+      <Filter>BaseControlWidget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,8 +134,23 @@
     <CustomBuild Include="HAPPYPLAYER.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Foundation\BaseView.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="BaseControlWidget\TitleBar.h">
+      <Filter>BaseControlWidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Foundation\BaseView\BaseView.h">
+      <Filter>Foundation\BaseView</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BaseControlWidget\ButtonForTitleBar.h">
+      <Filter>BaseControlWidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\ButtonForTitleBar.qrc">
+      <Filter>BaseControlWidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Foundation\CustomShadowEffect.h">
+      <Filter>Foundation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BaseControlWidget\MOON.h">
+      <Filter>BaseControlWidget</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
