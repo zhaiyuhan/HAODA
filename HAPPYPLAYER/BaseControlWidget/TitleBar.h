@@ -27,8 +27,9 @@ private:
 	ButtonForTitleBar *btnMin;
 	ButtonForTitleBar *btnMax;
 	ButtonForTitleBar *btnClose;
-	int SpacingValue = 10;
-	int LeftValue = 10;
-	int TopValue = 10;
+	int SpacingValue = 4;
+	int LeftValue = 5;
+	int TopValue = 5;
+	
 	MOON *m_moon;
 };

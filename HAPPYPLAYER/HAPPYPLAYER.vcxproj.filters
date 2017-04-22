@@ -67,9 +67,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_HAPPYPLAYER.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_HAPPYPLAYER.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_TitleBar.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -118,6 +115,12 @@
     <ClCompile Include="BaseControlWidget\MOON.cpp">
       <Filter>BaseControlWidget</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_WindowsControlButton.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\FoundationControl.h">
+      <Filter>Foundation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -130,9 +133,6 @@
   <ItemGroup>
     <CustomBuild Include="HAPPYPLAYER.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="HAPPYPLAYER.qrc">
-      <Filter>Resource Files</Filter>
     </CustomBuild>
     <CustomBuild Include="BaseControlWidget\TitleBar.h">
       <Filter>BaseControlWidget</Filter>
@@ -151,6 +151,9 @@
     </CustomBuild>
     <CustomBuild Include="BaseControlWidget\MOON.h">
       <Filter>BaseControlWidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\WindowsControlButton.qrc">
+      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

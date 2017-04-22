@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ButtonForTitleBar.h"
+#include "Foundation\FoundationControl.h"
 
 ButtonForTitleBar::ButtonForTitleBar(QWidget *parent)
 	: QPushButton(parent)
@@ -31,7 +32,7 @@ void ButtonForTitleBar::changeStatus(ButtonStatus status)
 
 void ButtonForTitleBar::toggleResizeButton(bool isMax)
 {
-	if (!isMax)_isMax = false; else _isMax = true;
+	if (!isMax)_isFullScreened = false; else _isFullScreened = true;
 }
 
 
@@ -73,92 +74,44 @@ void ButtonForTitleBar::paintEvent(QPaintEvent *)
 	QPainter painter(this);
 	QPixmap pixmap;
 	painter.setRenderHint(QPainter::Antialiasing, true);
-	if (getType() == CLOSE)
+	switch (e_status)
 	{
-		switch (e_status)
-		{
-		case NORMAL:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonCloseNORMAL.png");
-			break;
-		case ENTER:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonCloseENTER.png");
-			break;
-		case PRESS:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonClosePRESS.png");
-			break;
-		case NOSTATUS:
-			pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnNoStatus.png");
-			break;
-		default:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonCloseNORMAL.png");
-			break;
-		}
+	case NORMAL:
+		if (getType() == CLOSE) m_loadpath = FoundationControl::WCB::btnClose;
+		if (getType() == MIN) m_loadpath = FoundationControl::WCB::btnMin;
+		if (getType() == FULLSCREEN) m_loadpath = FoundationControl::WCB::btnFullScreen;
+		pixmap.load(m_loadpath);
+		break;
+	case ENTER:
+		if (getType() == CLOSE) m_loadpath = FoundationControl::WCB::btnCloseHover;
+		if (getType() == MIN) m_loadpath = FoundationControl::WCB::btnMinHover;
+		if (getType() == FULLSCREEN&&_isFullScreened==false) 
+			m_loadpath = FoundationControl::WCB::btnFullScreenHover;
+		if (getType() == FULLSCREEN&&_isFullScreened == true)
+			m_loadpath = FoundationControl::WCB::btnReFullScreenHover;
+		pixmap.load(m_loadpath);
+		break;
+	case PRESS:
+		if (getType() == CLOSE) m_loadpath = FoundationControl::WCB::btnClosePress;
+		if (getType() == MIN) m_loadpath = FoundationControl::WCB::btnMinPress;
+		if (getType() == FULLSCREEN&&_isFullScreened == false)
+			m_loadpath = FoundationControl::WCB::btnFullScreenPress;
+		if (getType() == FULLSCREEN&&_isFullScreened == true)
+			m_loadpath = FoundationControl::WCB::btnReFullScreenPress;
+		pixmap.load(m_loadpath);
+		break;
+	case NOSTATUS:
+		m_loadpath = FoundationControl::WCB::btnNoStatus;
+		pixmap.load(m_loadpath);
+		break;
+	default:
+		if (getType() == CLOSE) m_loadpath = FoundationControl::WCB::btnClose;
+		if (getType() == MIN) m_loadpath = FoundationControl::WCB::btnMin;
+		if (getType() == FULLSCREEN) m_loadpath = FoundationControl::WCB::btnFullScreen;
+		pixmap.load(m_loadpath);
+		break;
 	}
-	else if (getType() == MIN)
-	{
-		switch (e_status)
-		{
-		case NORMAL:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonMinNOMAL.png");
-			break;
-		case ENTER:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonMinENTER.png");
-			break;
-		case PRESS:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonMinPRESS.png");
-			break;
-		case NOSTATUS:
-			pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnNoStatus.png");
-			break;
-		default:
-			pixmap.load(":/new/prefix1/Res_ButtonForTitleBar/buttonMinNOMAL.png");
-			break;
-		}
-	}
-	else if (getType() == MAX)
-	{
-		if (!_isMax) {
-			switch (e_status)
-			{
-			case NORMAL:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResize.png");
-				break;
-			case ENTER:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResizeEnter.png");
-				break;
-			case PRESS:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResizePress.png");
-				break;
-			case NOSTATUS:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnNoStatus.png");
-				break;
-			default:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResize.png");
-				break;
-			}
-		}
-		else {
-			switch (e_status)
-			{
-			case NORMAL:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResize.png");
-				break;
-			case ENTER:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResizeEnter_Full.png");
-				break;
-			case PRESS:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResizePress_Full.png");
-				break;
-			case NOSTATUS:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnNoStatus.png");
-				break;
-			default:
-				pixmap.load(":/btnForTitleBar/Res_ButtonForTitleBar/btnResize.png");
-				break;
-			}
-		}
-	}
-	painter.drawPixmap(0, 0, 15, 15, pixmap);
+	painter.drawPixmap(0, 0, 16, 16, pixmap);
 }
 
 void ButtonForTitleBar::enterEvent(QEvent *)

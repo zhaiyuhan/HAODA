@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/WindowsControlButton">
+        <file>Res_WindowControlButtons/btnClose.png</file>
+        <file>Res_WindowControlButtons/btnCloseHover.png</file>
+        <file>Res_WindowControlButtons/btnClosePress.png</file>
+        <file>Res_WindowControlButtons/btnCloseSave.png</file>
+        <file>Res_WindowControlButtons/btnCloseSaveHover.png</file>
+        <file>Res_WindowControlButtons/btnCloseSaveNoStatusHover.png</file>
+        <file>Res_WindowControlButtons/btnCloseSaveNoStatusPress.png</file>
+        <file>Res_WindowControlButtons/btnCloseSavePress.png</file>
+        <file>Res_WindowControlButtons/btnFullScreenHover.png</file>
+        <file>Res_WindowControlButtons/btnFullScreenPress.png</file>
+        <file>Res_WindowControlButtons/btnMax.png</file>
+        <file>Res_WindowControlButtons/btnMaxHover.png</file>
+        <file>Res_WindowControlButtons/btnMaxPress.png</file>
+        <file>Res_WindowControlButtons/btnMin.png</file>
+        <file>Res_WindowControlButtons/btnMinHover.png</file>
+        <file>Res_WindowControlButtons/btnMinPress.png</file>
+        <file>Res_WindowControlButtons/btnNormalHover.png</file>
+        <file>Res_WindowControlButtons/btnNormalPress.png</file>
+        <file>Res_WindowControlButtons/btnNoStatus.png</file>
+    </qresource>
+</RCC>

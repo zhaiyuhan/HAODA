@@ -95,6 +95,7 @@ bool HAPPYPLAYER::nativeEvent(const QByteArray & eventType, void * message, long
 		switch (msg->wParam)
 		{
 		case SIZE_MAXIMIZED:
+			move(0, 0);
 			break;
 		case SIZE_RESTORED:
 			break;
