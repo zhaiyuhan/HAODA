@@ -20,10 +20,4 @@ public:
 
 protected:
 	void InitView();
-	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
-	void changeEvent(QEvent *event);
-	void resizeEvent(QResizeEvent *event);
-	/*void paintEvent(QPaintEvent * event);*/
-private:
-	TitleBar *m_maintitlebar;
 };

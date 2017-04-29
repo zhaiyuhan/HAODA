@@ -27,7 +27,7 @@ ButtonType ButtonForTitleBar::getType()
 void ButtonForTitleBar::changeStatus(ButtonStatus status)
 {
 	if (status == NOSTATUS) e_status = NOSTATUS;
-	if (status == NORMAL)e_status = NORMAL;
+	if (status == NORMAL) e_status = NORMAL;
 }
 
 void ButtonForTitleBar::toggleResizeButton(bool isMax)
