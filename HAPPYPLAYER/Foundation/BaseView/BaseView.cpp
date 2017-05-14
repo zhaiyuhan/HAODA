@@ -149,10 +149,10 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 		switch (msg->wParam)
 		{
 		case SIZE_MAXIMIZED:
-
+			qDebug() << "Maxed";
 			break;
 		case SIZE_RESTORED:
-
+			qDebug() << "Restored";
 			break;
 		}
 		break;
