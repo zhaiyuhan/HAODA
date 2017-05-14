@@ -11,7 +11,7 @@ class ButtonForTitleBar : public QPushButton
 	Q_OBJECT
 
 public:
-	ButtonForTitleBar(QWidget *parent);
+	explicit ButtonForTitleBar(QWidget *parent);
 	~ButtonForTitleBar();
 	void setType(ButtonType type);
 	ButtonType getType();

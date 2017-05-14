@@ -28,9 +28,46 @@ void BaseView::_init_view(int xwidth, int xheight,
 	if (ifEnableAnimation)EnableAnimation(true);
 }
 
-void BaseView::_init_TitleBar(int xheight, QColor background, bool ifEnableShadow)
+void BaseView::createTitleBar(int h, QColor c, bool shadow)
 {
-		m_maintitlebar = new TitleBar(this);
+	m_maintitlebar = new TitleBar(this);
+	_init_TitleBar(m_maintitlebar, h, c, shadow);
+}
+
+void BaseView::_init_TitleBar(TitleBar *t, int xheight, QColor background, bool ifEnableShadow)
+{
+	_init_titlebar_events(t);
+	t->setHeight(xheight);
+	t->setColor(background);
+	t->EnableShaow(ifEnableShadow);
+	t->show();
+}
+
+void BaseView::_init_titlebar_events(TitleBar *maintitlebar)
+{
+	if (maintitlebar != nullptr)
+	connect(this, &BaseView::isHadFocuse, [=](bool had) {
+		if (had) {
+			maintitlebar->setStatus(NORMAL);
+			update();
+		}
+		else {
+			maintitlebar->setStatus(NOSTATUS);
+			update();
+		}
+	});
+	connect(this, &BaseView::togglebtnMax, [=](bool iftoggle) {
+		if (iftoggle) {
+			maintitlebar->setbtnMaxType(true);
+			maintitlebar->resize(this->width(), 30);
+			update();
+		}
+		else {
+			maintitlebar->setbtnMaxType(false);
+			maintitlebar->resize(this->width(), 30);
+			update();
+		}
+	});
 }
 
 bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * result)
@@ -43,7 +80,7 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 	case WM_NCHITTEST:
 		xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
 		yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
-		if (childAt(xPos, yPos) != NULL)
+		if (QApplication::widgetAt(xPos, yPos) != NULL)
 			return QWidget::nativeEvent(eventType, message, result);
 		if (Qt::WindowFullScreen != windowState())
 			*result = HTCAPTION;
@@ -123,12 +160,10 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 		return true;
 		break;
 	case WM_SETFOCUS:
-		m_maintitlebar->setStatus(NORMAL);
-		update();
+		emit isHadFocuse(true);
 		break;
 	case WM_KILLFOCUS:
-		m_maintitlebar->setStatus(NOSTATUS);
-		update();
+		emit isHadFocuse(false);
 		break;
 	case WM_LBUTTONDBLCLK:
 		if (Qt::WindowFullScreen == windowState())
@@ -145,12 +180,10 @@ void BaseView::changeEvent(QEvent * event)
 	Q_UNUSED(event);
 	if (event->type() == QEvent::WindowStateChange)
 	{
-		//if (Qt::WindowNoState == windowState()) m_maintitlebar->move(0, 0);
-		if (Qt::WindowMaximized == windowState()) m_maintitlebar->setbtnMaxType(true);
-		m_maintitlebar->move(6, 6);
-		if (Qt::WindowMaximized != windowState()) m_maintitlebar->setbtnMaxType(false);
-		if (Qt::WindowFullScreen == windowState()) m_maintitlebar->setbtnMaxType(true);
-		if (Qt::WindowFullScreen != windowState()) m_maintitlebar->setbtnMaxType(false);
+		if (Qt::WindowMaximized == windowState()) emit togglebtnMax(true);
+		if (Qt::WindowMaximized != windowState()) emit togglebtnMax(false);
+		if (Qt::WindowFullScreen == windowState()) emit togglebtnMax(true);
+		if (Qt::WindowFullScreen != windowState()) emit togglebtnMax(false);
 	}
 }
 

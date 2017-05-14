@@ -1,19 +1,14 @@
 #include "stdafx.h"
 #include "TitleBar.h"
+#include <windowsx.h>
 
 
 TitleBar::TitleBar(QWidget *parent)
 	: QWidget(parent)
 {
-	InitView();
-	SetupEvents();
-	SetupEffects();
+	
 }
 
-void ShowNoramlMethod()
-{
-
-}
 TitleBar::~TitleBar()
 {
 }
@@ -51,6 +46,30 @@ void TitleBar::setbtnMaxType(bool isMax)
 	}
 }
 
+void TitleBar::setHeight(int height)
+{
+	qDebug() << height;
+	m_height = height;
+}
+
+void TitleBar::setColor(QColor bgcolor)
+{
+	m_bgcolor = bgcolor;
+}
+
+void TitleBar::EnableShaow(bool ifEnable)
+{
+	m_ifEnableShadow = ifEnable;
+}
+
+void TitleBar::showEvent(QShowEvent * event)
+{
+	Q_UNUSED(event);
+	InitView();
+	SetupEvents();
+	SetupEffects();
+}
+
 void TitleBar::mouseDoubleClickEvent(QMouseEvent * event)
 {
 	Q_UNUSED(event);
@@ -83,15 +102,17 @@ void TitleBar::mousePressEvent(QMouseEvent * event)
 	event->ignore();
 }
 
-
 void TitleBar::InitView()
 {
-	setFixedHeight(25);
+	setHeight(m_height);
 	setAutoFillBackground(true);
 	SetupUI();
-	btnClose->move(LeftValue, TopValue);
-	btnMin->move(LeftValue + btnClose->width() + SpacingValue, TopValue);
-	btnMax->move(LeftValue + btnMin->width() + btnMax->width() + 2 * SpacingValue, TopValue);
+	btnClose->move(LeftValue, height() - 20);
+	btnMin->move(LeftValue + btnClose->width() + SpacingValue, height() - 20);
+	btnMax->move(LeftValue + btnMin->width() + btnMax->width() + 2 * SpacingValue, height() - 20);
+	btnClose->show();
+	btnMin->show();
+	btnMax->show();
 }
 
 void TitleBar::SetupUI()
@@ -100,16 +121,17 @@ void TitleBar::SetupUI()
 	btnClose->setType(CLOSE);
 	btnClose->setFixedSize(16, 16);
 	btnClose->setToolTip(QString::fromLocal8Bit("关闭"));
-
+	
 	btnMin = new ButtonForTitleBar(this);
 	btnMin->setType(MIN);
 	btnMin->setFixedSize(16, 16);
 	btnMin->setToolTip(QString::fromLocal8Bit("最小化"));
-
+	
 	btnMax = new ButtonForTitleBar(this);
 	btnMax->setType(FULLSCREEN);
 	btnMax->setFixedSize(16, 16);
 	btnMax->setToolTip(QString::fromLocal8Bit("全屏"));
+	
 }
 
 void TitleBar::SetupEvents()
@@ -140,5 +162,5 @@ void TitleBar::paintEvent(QPaintEvent *event)
 
 	QPainter p(this);
 	p.setRenderHint(QPainter::Antialiasing, true);
-	p.fillRect(this->rect(), QColor(255, 255, 255, 100));
+	p.fillRect(this->rect(), m_bgcolor);
 }
