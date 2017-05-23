@@ -17,6 +17,7 @@ public:
 	ButtonType getType();
 	void changeStatus(ButtonStatus status);
 	void toggleResizeButton(bool isMax);
+	bool isCaption(int x, int y) const;
  signals:
 	void RightButtonCliked();
 protected slots :

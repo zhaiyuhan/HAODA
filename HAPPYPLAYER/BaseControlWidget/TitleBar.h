@@ -18,6 +18,7 @@ public:
 	void setHeight(int height);
 	void setColor(QColor bgcolor);
 	void EnableShaow(bool ifEnable);
+	bool isCaption(int x, int y) const;
 protected:
 	virtual void showEvent(QShowEvent *event);
 	virtual void mouseDoubleClickEvent(QMouseEvent *event);

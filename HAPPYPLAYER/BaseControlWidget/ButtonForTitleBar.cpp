@@ -35,6 +35,16 @@ void ButtonForTitleBar::toggleResizeButton(bool isMax)
 	if (!isMax)_isFullScreened = false; else _isFullScreened = true;
 }
 
+bool ButtonForTitleBar::isCaption(int x, int y) const
+{
+	if (this->rect().contains(x, y)) {
+		if (!this->childAt(x, y)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 
 
 void ButtonForTitleBar::mousePressEvent(QMouseEvent * event)

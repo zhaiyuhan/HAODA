@@ -31,6 +31,7 @@ void BaseView::_init_view(int xwidth, int xheight,
 void BaseView::createTitleBar(int h, QColor c, bool shadow)
 {
 	m_maintitlebar = new TitleBar(this);
+	m_maintitlebar->show();
 	_init_TitleBar(m_maintitlebar, h, c, shadow);
 }
 
@@ -73,83 +74,53 @@ void BaseView::_init_titlebar_events(TitleBar *maintitlebar)
 bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
 	Q_UNUSED(eventType)
-		MSG* msg = reinterpret_cast<MSG*>(message);
-	int xPos = 0, yPos = 0;
-	switch (msg->message)
-	{
+	MSG* msg = reinterpret_cast<MSG*>(message);
+	switch (msg->message) {
 	case WM_NCHITTEST:
-		xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
-		yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
-		if (QApplication::widgetAt(xPos, yPos) != NULL)
-			return QWidget::nativeEvent(eventType, message, result);
-		if (Qt::WindowFullScreen != windowState())
-			*result = HTCAPTION;
-		if (Qt::WindowFullScreen == windowState())
-			*result = HTCLIENT;
-		if (xPos > 0 && xPos < 5)
-			*result = HTLEFT;
-		if (xPos >(this->width() - 5) && xPos < (this->width() - 0))
-			*result = HTRIGHT;
-		if (yPos > 0 && yPos < 5)
-			*result = HTTOP;
-		if (yPos >(this->height() - 5) && yPos < (this->height() - 0))
-			*result = HTBOTTOM;
-		if (xPos > 0 && xPos < 5 && yPos > 0 && yPos < 5)
-			*result = HTTOPLEFT;
-		if (xPos >(this->width() - 5) && xPos < (this->width() - 0) && yPos > 0 && yPos < 5)
-			*result = HTTOPRIGHT;
-		if (xPos > 0 && xPos < 5 && yPos >(this->height() - 5) && yPos < (this->height() - 0))
-			*result = HTBOTTOMLEFT;
-		if (xPos >(this->width() - 5) && xPos < (this->width() - 0) && yPos >(this->height() - 5) && yPos < (this->height() - 0))
-			*result = HTBOTTOMRIGHT;
-
-		return true;
-		break;
-
+	{
+	int xPos = GET_X_LPARAM(msg->lParam) - this->frameGeometry().x();
+	int yPos = GET_Y_LPARAM(msg->lParam) - this->frameGeometry().y();
+	*result = HTCLIENT;
+	if (xPos > 0 && xPos < 5)
+		*result = HTLEFT;
+	if (xPos > (this->width() - 5) && xPos < (this->width() - 0))
+		*result = HTRIGHT;
+	if (yPos > 0 && yPos < 5)
+		*result = HTTOP;
+	if (yPos > (this->height() - 5) && yPos < (this->height() - 0))
+		*result = HTBOTTOM;
+	if (xPos > 0 && xPos < 5 && yPos > 0 && yPos < 5)
+		*result = HTTOPLEFT;
+	if (xPos > (this->width() - 5) && xPos < (this->width() - 0) && yPos > 0 && yPos < 5)
+		*result = HTTOPRIGHT;
+	if (xPos > 0 && xPos < 5 && yPos >(this->height() - 5) && yPos < (this->height() - 0))
+		*result = HTBOTTOMLEFT;
+	if (xPos > (this->width() - 5) && xPos < (this->width() - 0) && yPos >(this->height() - 5) && yPos < (this->height() - 0))
+		*result = HTBOTTOMRIGHT;
+	return true;
+	break;
+	}
+	/*
 	case WM_GETMINMAXINFO:
-		/*if (::IsZoomed(msg->hwnd)) {
-		RECT frame = { 0, 0, 0, 0 };
-		AdjustWindowRectEx(&frame, WS_OVERLAPPEDWINDOW, FALSE, 0);
-		frame.left = abs(frame.left);
-		frame.top = abs(frame.bottom);
-		this->setContentsMargins(frame.left, frame.top, frame.right, frame.bottom);
+	{
+		if (::IsZoomed(msg->hwnd)) {
+			qDebug() << "MAXED";
+			this->setContentsMargins(6, 6, 6, 6);
 		}
 		else {
-		this->setContentsMargins(0, 0, 0, 0);
+			this->setContentsMargins(6, 6, 6, 6);
 		}
-		*result = ::DefWindowProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);*/
-	{
-		MINMAXINFO *mmi = (MINMAXINFO*)(msg->lParam);
-
-		QRect desktop = qApp->desktop()->availableGeometry(this);
-		QRect desktopRect = qApp->desktop()->screenGeometry(this);
-
-		mmi->ptMaxSize.x = desktop.width();
-		mmi->ptMaxSize.y = desktop.height();
-
-		int desktopLeft = desktop.left() - desktopRect.left();
-		int desktopTop = desktop.top() - desktopRect.top();
-
-		mmi->ptMaxPosition.x = desktopLeft;
-		mmi->ptMaxPosition.y = desktopTop;
-
-		mmi->ptMinTrackSize.x = 1024;
-		mmi->ptMinTrackSize.y = 768;
-
-		mmi->ptMaxTrackSize.x = desktop.width();
-		mmi->ptMaxTrackSize.y = desktop.height();
-
-		*result = 0;
-
+		*result = ::DefWindowProc(msg->hwnd, msg->message, msg->wParam, msg->lParam);
 		return true;
 	}
 	break;
-
+	*/
 	case WM_SIZE:
 		switch (msg->wParam)
 		{
 		case SIZE_MAXIMIZED:
 			qDebug() << "Maxed";
+			setContentsMargins(6, 6, 6, 6);
 			break;
 		case SIZE_RESTORED:
 			qDebug() << "Restored";
@@ -165,9 +136,16 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 	case WM_KILLFOCUS:
 		emit isHadFocuse(false);
 		break;
+	case WM_LBUTTONDOWN:
+		if (Qt::WindowFullScreen != windowState())
+			if (ReleaseCapture())
+		SendMessage(HWND(this->window()->winId()), WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);
+		break;
 	case WM_LBUTTONDBLCLK:
 		if (Qt::WindowFullScreen == windowState())
 			this->showNormal();
+		if (Qt::WindowFullScreen != windowState())
+		this->isMaximized() ? this->showNormal() : this->showMaximized();
 		break;
 	default:
 		return QWidget::nativeEvent(eventType, message, result);
@@ -270,3 +248,5 @@ int BaseView::getWidth()
 {
 	return m_width;
 }
+
+

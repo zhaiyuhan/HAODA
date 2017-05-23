@@ -45,4 +45,5 @@ private:
 
 
 	TitleBar *m_maintitlebar;
+	
 };

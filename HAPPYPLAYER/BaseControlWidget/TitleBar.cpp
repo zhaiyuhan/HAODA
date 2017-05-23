@@ -62,6 +62,16 @@ void TitleBar::EnableShaow(bool ifEnable)
 	m_ifEnableShadow = ifEnable;
 }
 
+bool TitleBar::isCaption(int x, int y) const
+{
+	if (this->rect().contains(x, y)) {
+		if (!this->childAt(x, y)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void TitleBar::showEvent(QShowEvent * event)
 {
 	Q_UNUSED(event);
@@ -136,11 +146,11 @@ void TitleBar::SetupUI()
 
 void TitleBar::SetupEvents()
 {
+	this->installEventFilter(this);
 	connect(btnClose, &QPushButton::clicked, [=]() { qApp->exit(); });
 	connect(btnMin, &QPushButton::clicked, [=]() { this->parentWidget()->showMinimized(); });
 	connect(btnMax, &QPushButton::clicked, [=]()
-	{ parentWidget()->isFullScreen() ? parentWidget()->showNormal() : parentWidget()->showFullScreen(); update();
-	SendMessage(HWND(this->winId()), WM_LBUTTONUP, NULL, NULL); });
+	{ parentWidget()->isFullScreen() ? parentWidget()->showNormal() : parentWidget()->showFullScreen(); update();});
 
 	connect(btnMax, &ButtonForTitleBar::RightButtonCliked, [=](){m_moon = new MOON(this);
 	m_moon->move(parentWidget()->mapToGlobal(QPoint(0, 0)).x() + 60, parentWidget()->mapToGlobal(QPoint(0, 0)).y() + 30);
