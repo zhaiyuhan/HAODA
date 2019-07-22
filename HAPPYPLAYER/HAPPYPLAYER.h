@@ -4,6 +4,7 @@
 #include "Foundation\WindowCompositionAttribute.h"
 #include "Foundation\BaseView\BaseView.h"
 #include "BaseControlWidget\TitleBar.h"
+#include "BaseControlWidget\Menu.h"
 
 #include "qevent.h"
 #include <dwmapi.h>
@@ -20,4 +21,7 @@ public:
 
 protected:
 	void InitView();
+	void contextMenuEvent(QContextMenuEvent*);
+	Menu* menu;
+
 };

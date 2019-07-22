@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
       <Extensions>qrc;*</Extensions>
@@ -50,6 +46,12 @@
     <Filter Include="Foundation\BaseView">
       <UniqueIdentifier>{65363cfa-bb6c-4529-aec2-4bf84389f9eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Foundation\Menu">
+      <UniqueIdentifier>{7be72580-7462-4801-8303-91a8a515fed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{e5e871ff-d2ff-4e86-968f-7dfac817765f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_TitleBar.cpp">
       <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_TitleBar.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="BaseControlWidget\TitleBar.cpp">
       <Filter>BaseControlWidget</Filter>
@@ -121,19 +120,37 @@
     <ClCompile Include="Foundation\FoundationControl.h">
       <Filter>Foundation</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Menu.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Menu.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseControlWidget\Menu.cpp">
+      <Filter>Foundation\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_Menu.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PlayerView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PlayerView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="View\PlayerView.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Foundation\WindowCompositionAttribute.h">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="HAPPYPLAYER.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="BaseControlWidget\TitleBar.h">
       <Filter>BaseControlWidget</Filter>
     </CustomBuild>
@@ -154,6 +171,18 @@
     </CustomBuild>
     <CustomBuild Include="Resources\WindowsControlButton.qrc">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BaseControlWidget\Menu.h">
+      <Filter>Foundation\Menu</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\Res_Menu\Menu.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="View\PlayerView.h">
+      <Filter>View</Filter>
+    </CustomBuild>
+    <CustomBuild Include="HAPPYPLAYER.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

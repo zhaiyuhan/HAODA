@@ -115,7 +115,7 @@ void TitleBar::mousePressEvent(QMouseEvent * event)
 void TitleBar::InitView()
 {
 	setHeight(m_height);
-	setAutoFillBackground(true);
+	//setAutoFillBackground(true);
 	SetupUI();
 	btnClose->move(LeftValue, height() - 20);
 	btnMin->move(LeftValue + btnClose->width() + SpacingValue, height() - 20);
@@ -129,17 +129,17 @@ void TitleBar::SetupUI()
 {
 	btnClose = new ButtonForTitleBar(this);
 	btnClose->setType(CLOSE);
-	btnClose->setFixedSize(16, 16);
+	btnClose->setFixedSize(20, 20);
 	btnClose->setToolTip(QString::fromLocal8Bit("关闭"));
 	
 	btnMin = new ButtonForTitleBar(this);
 	btnMin->setType(MIN);
-	btnMin->setFixedSize(16, 16);
+	btnMin->setFixedSize(20, 20);
 	btnMin->setToolTip(QString::fromLocal8Bit("最小化"));
 	
 	btnMax = new ButtonForTitleBar(this);
 	btnMax->setType(FULLSCREEN);
-	btnMax->setFixedSize(16, 16);
+	btnMax->setFixedSize(20, 20);
 	btnMax->setToolTip(QString::fromLocal8Bit("全屏"));
 	
 }

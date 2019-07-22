@@ -157,15 +157,8 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 				*result = HTTOPRIGHT;
 			}
 		}
-
 		if (*result != 0)
 			return true;
-
-		/*auto action = QApplication::widgetAt(QCursor::pos());
-		if (action == title_bar_widget_) {
-			*result = HTCAPTION;
-			return true;
-		}*/
 		break;
 	}
 	case WM_GETMINMAXINFO: {
@@ -173,7 +166,7 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 
 		if (ifMaximized(msg->hwnd)) {
 
-			RECT window_rect;
+			RECT window_rect{};
 
 			if (!GetWindowRect(msg->hwnd, &window_rect)) {
 				return false;
@@ -260,8 +253,8 @@ void BaseView::changeEvent(QEvent * event)
 void BaseView::resizeEvent(QResizeEvent * event)
 {
 	QWidget::resizeEvent(event);
-	m_maintitlebar->setFixedWidth(this->width());
-	m_maintitlebar->move(0, 0);
+	/*m_maintitlebar->setFixedWidth(this->width());
+	m_maintitlebar->move(0, 0);*/
 }
 
 void BaseView::EnableBackgroundColor(QColor bgcolor)

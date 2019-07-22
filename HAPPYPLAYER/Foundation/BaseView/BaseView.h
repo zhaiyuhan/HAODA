@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <qt_windows.h>
 #include <BaseControlWidget\TitleBar.h>
-#include "qevent.h"
+#include <qevent.h>
 #include <dwmapi.h>
 #include <windowsx.h>
 
@@ -12,7 +12,7 @@ class BaseView : public QWidget
 	Q_OBJECT
 
 public:
-	explicit BaseView(QWidget *parent);
+	explicit BaseView(QWidget *parent = Q_NULLPTR);
 	~BaseView();
 	
 	void _init_view(int xheight, int xwidth,
