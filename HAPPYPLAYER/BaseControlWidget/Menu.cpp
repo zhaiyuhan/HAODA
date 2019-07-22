@@ -4,13 +4,14 @@
 Menu::Menu(QWidget *parent)
 	: QMenu(parent)
 {
-	QFile menustyle(":/MenuStyle.qss");
-	if (menustyle.open(QFile::ReadOnly))
-	{
-		QString style = QLatin1String(menustyle.readAll());
-		this->setStyleSheet(style);
-		menustyle.close();
-	}
+	_init_();
+}
+
+
+Menu::Menu(const QString& title, QWidget* parent)
+{
+	_init_();
+	setTitle(title);
 }
 
 Menu::~Menu()

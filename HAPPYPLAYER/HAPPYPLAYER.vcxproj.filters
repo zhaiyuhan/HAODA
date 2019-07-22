@@ -52,6 +52,11 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{e5e871ff-d2ff-4e86-968f-7dfac817765f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -187,5 +192,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HAPPYPLAYER.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="happyplayer_zh.ts">
+      <Filter>Translation Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

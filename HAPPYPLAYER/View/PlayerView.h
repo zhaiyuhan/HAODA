@@ -3,6 +3,7 @@
 #include <BaseView.h>
 #include <QtAV/QtAV.h>
 #include <QtAVWidgets/QtAVWidgets.h>
+#include "Menu.h"
 class PlayerView : public BaseView
 {
 	Q_OBJECT
@@ -10,6 +11,8 @@ class PlayerView : public BaseView
 public:
 	explicit PlayerView(QWidget *parent = Q_NULLPTR);
 	~PlayerView();
+protected:
+	void contextMenuEvent(QContextMenuEvent*);
 public Q_SLOTS:
 	void openMedia();
 	void seekBySlider(int value);
@@ -23,9 +26,7 @@ private Q_SLOTS:
 private:
 	QtAV::VideoOutput* m_vo;
 	QtAV::AVPlayer* m_player;
+	Menu* menu;
 	QSlider* m_slider;
-	QPushButton* m_openBtn;
-	QPushButton* m_playBtn;
-	QPushButton* m_stopBtn;
 	int m_unit;
 };

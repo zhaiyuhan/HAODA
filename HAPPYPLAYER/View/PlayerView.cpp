@@ -9,6 +9,7 @@ PlayerView::PlayerView(QWidget *parent)
 	m_player = new AVPlayer(this);
 	QVBoxLayout* vl = new QVBoxLayout();
 	setLayout(vl);
+	vl->setContentsMargins(0,0,0,0);
 	m_vo = new VideoOutput(this);
 	if (!m_vo->widget()) {
 		QMessageBox::warning(nullptr, QString::fromLatin1("QtAV error"), tr("Can not create video renderer"));
@@ -17,30 +18,100 @@ PlayerView::PlayerView(QWidget *parent)
 	m_player->setRenderer(m_vo);
 	vl->addWidget(m_vo->widget());
 	m_slider = new QSlider(this);
-	m_slider->setOrientation(Qt::Horizontal);
+	m_slider->hide();
+	/*m_slider->setOrientation(Qt::Horizontal);
 	connect(m_slider, SIGNAL(sliderMoved(int)), SLOT(seekBySlider(int)));
 	connect(m_slider, SIGNAL(sliderPressed()), SLOT(seekBySlider()));
 	connect(m_player, SIGNAL(positionChanged(qint64)), SLOT(updateSlider(qint64)));
 	connect(m_player, SIGNAL(started()), SLOT(updateSlider()));
 	connect(m_player, SIGNAL(notifyIntervalChanged()), SLOT(updateSliderUnit()));
 
-	vl->addWidget(m_slider);
-	QHBoxLayout* hb = new QHBoxLayout(this);
-	vl->addLayout(hb);
-	m_openBtn = new QPushButton(tr("Open"));
-	m_playBtn = new QPushButton(tr("Play/Pause"));
-	m_stopBtn = new QPushButton(tr("Stop"));
-	hb->addWidget(m_openBtn);
-	hb->addWidget(m_playBtn);
-	hb->addWidget(m_stopBtn);
-	connect(m_openBtn, SIGNAL(clicked()), SLOT(openMedia()));
-	connect(m_playBtn, SIGNAL(clicked()), SLOT(playPause()));
-	connect(m_stopBtn, SIGNAL(clicked()), m_player, SLOT(stop()));
+	vl->addWidget(m_slider);*/
+	
 	this->setLayout(vl);
 }
 
 PlayerView::~PlayerView()
 {
+}
+void PlayerView::contextMenuEvent(QContextMenuEvent*)
+{
+	QCursor cur = this->cursor();
+	menu = new Menu(this);
+	//Menu HAODA
+	Menu* HAODAMenu = new Menu(tr("HAO DA"), this);
+	menu->addMenu(HAODAMenu);
+	QAction* AboutHAODAAction = new QAction(tr("About HAODA"), this);
+	HAODAMenu->addAction(AboutHAODAAction);
+	HAODAMenu->addSeparator();
+	QAction* PreferenceAction = new QAction(tr("Preference"), this);
+	HAODAMenu->addAction(PreferenceAction);
+	HAODAMenu->addSeparator();
+	QAction* ExitAction = new QAction(tr("Exit"), this);
+	HAODAMenu->addAction(ExitAction);
+	connect(ExitAction, &QAction::triggered, this, [=]() { qApp->exit(); });
+	//Menu File
+	Menu* FileMenu = new Menu(tr("File"), this);
+	menu->addMenu(FileMenu);
+	QAction* OpenFileAction = new QAction(tr("Open"), this);
+	FileMenu->addAction(OpenFileAction);
+	connect(OpenFileAction, &QAction::triggered, this, [=]() {openMedia(); });
+	QAction* OpenUrlAction = new QAction(tr("Open Url"), this);
+	FileMenu->addAction(OpenUrlAction);
+	FileMenu->addSeparator();
+	QAction* OpenFileActionX = new QAction(tr("Open in new Window"), this);
+	FileMenu->addAction(OpenFileActionX);
+	connect(OpenFileAction, &QAction::triggered, this, [=]() {openMedia(); });
+	QAction* OpenUrlActionX = new QAction(tr("Open Url in new Window"), this);
+	FileMenu->addAction(OpenUrlActionX);
+	FileMenu->addSeparator();
+	QAction* CloseFileAction = new QAction(tr("Close"), this);
+	FileMenu->addAction(CloseFileAction);
+	//Menu Edit
+	Menu* EditMenu = new Menu(tr("Eidt"), this);
+	menu->addMenu(EditMenu);
+
+
+	//Menu Play Control
+	Menu* PlayControlMenu = new Menu(tr("Play Control"), this);
+	menu->addMenu(PlayControlMenu);
+	QAction* PlayControlAction = new QAction(tr("Play/Pause"), this);
+	PlayControlMenu->addAction(PlayControlAction);
+	QAction* SpeedAction = new QAction(tr("Speed"), this);
+	PlayControlMenu->addAction(SpeedAction);
+	PlayControlMenu->addSeparator();
+	QAction* ScreenshotsAction = new QAction(tr("Screen Shot"), this);
+	PlayControlMenu->addAction(ScreenshotsAction);
+	QAction* GoToScreenshotsAction = new QAction(tr("Find Screen Shot"), this);
+	PlayControlMenu->addAction(GoToScreenshotsAction);
+	//Menu Video
+	Menu* VideoMenu = new Menu(tr("Video"), this);
+	menu->addMenu(VideoMenu);
+	QAction* DecoderAction = new QAction(tr("Decoder"), this);
+	VideoMenu->addAction(DecoderAction);
+	QAction* RenderAction = new QAction(tr("Render"), this);
+	VideoMenu->addAction(RenderAction);
+	QAction* AspectRatioAction = new QAction(tr("Aspect ratio"), this);
+	VideoMenu->addAction(AspectRatioAction);
+	QAction* ColorSpaceAction = new QAction(tr("Color space"), this);
+	VideoMenu->addAction(ColorSpaceAction);
+	//Menu Audio
+	Menu* AudioMenu = new Menu(tr("Audio"), this);
+	menu->addMenu(AudioMenu);
+
+	//Menu Fansub
+	Menu* FansubMenu = new Menu(tr("Fansub"), this);
+	menu->addMenu(FansubMenu);
+
+	//Menu View
+	Menu* ViewMenu = new Menu(tr("View"), this);
+	menu->addMenu(ViewMenu);
+
+
+	QAction* HelpAction = new QAction(tr("Help"), this);
+	menu->addSeparator();
+	menu->addAction(HelpAction);
+	menu->exec(cur.pos());
 }
 void PlayerView::openMedia()
 {

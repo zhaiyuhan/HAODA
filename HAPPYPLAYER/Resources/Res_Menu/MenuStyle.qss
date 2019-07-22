@@ -1,5 +1,5 @@
 QMenu {
-  background-color: transparent;
+  background-color: white;
   border: 1px solid 1519e;
   border-top-color: #c8c8c8;
   border-bottom-color: #acacac;
