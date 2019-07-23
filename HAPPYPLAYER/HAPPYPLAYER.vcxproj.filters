@@ -57,6 +57,9 @@
       <Extensions>ts</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{04c02909-8f08-4db8-acf4-52ed4f8db3e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,6 +149,30 @@
     <ClCompile Include="View\PlayerView.cpp">
       <Filter>View</Filter>
     </ClCompile>
+    <ClCompile Include="common\common.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Config.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Config.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Config.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="common\qoptions.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ScreenSaver.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ScreenSaver.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ScreenSaver.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foundation\WindowCompositionAttribute.h">
@@ -153,6 +180,15 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\common.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="common\common_export.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="common\qoptions.h">
+      <Filter>SDK</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +224,12 @@
     </CustomBuild>
     <CustomBuild Include="HAPPYPLAYER.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="common\Config.h">
+      <Filter>SDK</Filter>
+    </CustomBuild>
+    <CustomBuild Include="common\ScreenSaver.h">
+      <Filter>SDK</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

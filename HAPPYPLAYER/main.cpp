@@ -2,10 +2,12 @@
 #include "HAPPYPLAYER.h"
 #include "PlayerView.h"
 #include <QtWidgets/QApplication>
+#include <common/common.h>
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+	Config::setName(QString::fromLatin1("Player"));
 	QTranslator translator;
 	translator.load("happyplayer_zh.qm");
 	a.installTranslator(&translator);

@@ -3,6 +3,7 @@
 using namespace QtAV;
 PlayerView::PlayerView(QWidget *parent)
 	: BaseView(parent)
+
 {
 	_init_view(1024, 768, QColor(255, 255, 255, 100), false, true, true);
 	m_unit = 1000;
@@ -55,13 +56,13 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	menu->addMenu(FileMenu);
 	QAction* OpenFileAction = new QAction(tr("Open"), this);
 	FileMenu->addAction(OpenFileAction);
-	connect(OpenFileAction, &QAction::triggered, this, [=]() {openMedia(); });
+	connect(OpenFileAction, &QAction::triggered, this, [=]() {openFile(); });
 	QAction* OpenUrlAction = new QAction(tr("Open Url"), this);
 	FileMenu->addAction(OpenUrlAction);
 	FileMenu->addSeparator();
 	QAction* OpenFileActionX = new QAction(tr("Open in new Window"), this);
 	FileMenu->addAction(OpenFileActionX);
-	connect(OpenFileAction, &QAction::triggered, this, [=]() {openMedia(); });
+	connect(OpenFileAction, &QAction::triggered, this, [=]() {openFile(); });
 	QAction* OpenUrlActionX = new QAction(tr("Open Url in new Window"), this);
 	FileMenu->addAction(OpenUrlActionX);
 	FileMenu->addSeparator();
@@ -70,8 +71,10 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	//Menu Edit
 	Menu* EditMenu = new Menu(tr("Eidt"), this);
 	menu->addMenu(EditMenu);
-
-
+	QAction* CopyFileToAction = new QAction(tr("Copy file to"), this);
+	EditMenu->addAction(CopyFileToAction);
+	QAction* ExportInformationAction = new QAction(tr("Export Information"), this);
+	EditMenu->addAction(ExportInformationAction);
 	//Menu Play Control
 	Menu* PlayControlMenu = new Menu(tr("Play Control"), this);
 	menu->addMenu(PlayControlMenu);
@@ -98,7 +101,7 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	//Menu Audio
 	Menu* AudioMenu = new Menu(tr("Audio"), this);
 	menu->addMenu(AudioMenu);
-
+	
 	//Menu Fansub
 	Menu* FansubMenu = new Menu(tr("Fansub"), this);
 	menu->addMenu(FansubMenu);
@@ -106,19 +109,58 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	//Menu View
 	Menu* ViewMenu = new Menu(tr("View"), this);
 	menu->addMenu(ViewMenu);
-
-
+	QAction* MinimizeAction = new QAction(tr("Minimize"), this);
+	ViewMenu->addAction(MinimizeAction);
+	connect(MinimizeAction, &QAction::triggered, this, [=]() { showMinimized(); });
+	QAction* FullScreenAction = new QAction(tr("Full Screen"), this);
+	ViewMenu->addAction(FullScreenAction);
+	connect(FullScreenAction, &QAction::triggered, this, [=]() { showFullScreen(); });
+	QAction* MoveToMiddleAction = new QAction(tr("Move to middle"), this);
+	ViewMenu->addAction(MoveToMiddleAction);
+	connect(MoveToMiddleAction, &QAction::triggered, this, [=]() {
+		QDesktopWidget* deskdop = QApplication::desktop();
+		move((deskdop->width() - this->width()) / 2, (deskdop->height() - this->height()) / 2);
+	});
+	QAction* StayOnTopAction = new QAction(tr("Stay on Top"), this);
+	ViewMenu->addAction(StayOnTopAction);
+	connect(StayOnTopAction, &QAction::triggered, this, [=]() {  });
 	QAction* HelpAction = new QAction(tr("Help"), this);
 	menu->addSeparator();
 	menu->addAction(HelpAction);
 	menu->exec(cur.pos());
 }
-void PlayerView::openMedia()
+void PlayerView::_init_player()
 {
-	QString file = QFileDialog::getOpenFileName(nullptr, tr("Open a video"));
+	m_player = new AVPlayer(this);
+	VideoRenderer* vo = VideoRenderer::create((VideoRendererId)property("rendererId").toInt());
+	if (!vo || !vo->isAvailable() || !vo->widget())
+	{
+		QMessageBox::critical(0, QString::fromLatin1("HAODA"), tr("There's something wrong"));
+		//i will improve here some day
+	}
+	m_player->setRenderer(vo);
+}
+void PlayerView::play(const QString& _filename)
+{
+	mFile = _filename;
+	mTitle = mFile;
+	if (!mFile.contains(QLatin1String("://")) || mFile.startsWith(QLatin1String("file://")))
+	{
+		mTitle = QFileInfo(mFile).fileName();
+	}
+	//you will set the window title here
+	m_player->stop();
+	m_player->play(_filename);
+}
+void PlayerView::play(const QUrl& _url)
+{
+}
+void PlayerView::openFile()
+{
+	QString file = QFileDialog::getOpenFileName(nullptr, tr("Open file"));
 	if (file.isEmpty())
 		return;
-	m_player->play(file);
+	play(file);
 }
 
 void PlayerView::seekBySlider(int value)
