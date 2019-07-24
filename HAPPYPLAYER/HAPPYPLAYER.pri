@@ -27,5 +27,6 @@ SOURCES += ./HAPPYPLAYER.cpp \
     ./BaseControlWidget/TitleBar.cpp \
     ./BaseControlWidget/Menu.cpp
 RESOURCES += Resources/WindowsControlButton.qrc \
+    $$PWD/icon.qrc \
     Resources/ButtonForTitleBar.qrc \
     Resources/Res_Menu/Menu.qrc

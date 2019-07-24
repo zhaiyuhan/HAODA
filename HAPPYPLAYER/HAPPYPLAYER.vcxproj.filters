@@ -173,6 +173,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ScreenSaver.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_icon.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foundation\WindowCompositionAttribute.h">
@@ -230,6 +233,9 @@
     </CustomBuild>
     <CustomBuild Include="common\ScreenSaver.h">
       <Filter>SDK</Filter>
+    </CustomBuild>
+    <CustomBuild Include="icon.qrc">
+      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

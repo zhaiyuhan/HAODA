@@ -2,12 +2,15 @@
 #include "PlayerView.h"
 using namespace QtAV;
 PlayerView::PlayerView(QWidget *parent)
-	: BaseView(parent)
-
+	: BaseView(parent),
+	sliderPos(new QtMaterialSlider)
 {
 	_init_view(1024, 768, QColor(255, 255, 255, 100), false, true, true);
+	//_init_TitleBar()
 	m_unit = 1000;
+	setupUI();
 	m_player = new AVPlayer(this);
+	
 	QVBoxLayout* vl = new QVBoxLayout();
 	setLayout(vl);
 	vl->setContentsMargins(0,0,0,0);
@@ -28,12 +31,24 @@ PlayerView::PlayerView(QWidget *parent)
 	connect(m_player, SIGNAL(notifyIntervalChanged()), SLOT(updateSliderUnit()));
 
 	vl->addWidget(m_slider);*/
+
 	
-	this->setLayout(vl);
+	m_PlayButton = new QtMaterialIconButton(QIcon(":/play.svg:/Resources/play.svg"), this);
+	m_PlayButton->setIconSize(QSize(40, 40));
+	//qDebug() << QIcon(":/play.svg:/Resources/play.svg").isNull();
+	sliderPos->setThumbColor(QColor("#cecece"));//0f7ffa
+	sliderPos->setParent(this);
+	
+	
 }
 
 PlayerView::~PlayerView()
 {
+}
+void PlayerView::setupUI()
+{
+	
+	QTimer::singleShot(0, this, SLOT(_init_player));
 }
 void PlayerView::contextMenuEvent(QContextMenuEvent*)
 {
@@ -135,10 +150,26 @@ void PlayerView::_init_player()
 	VideoRenderer* vo = VideoRenderer::create((VideoRendererId)property("rendererId").toInt());
 	if (!vo || !vo->isAvailable() || !vo->widget())
 	{
-		QMessageBox::critical(0, QString::fromLatin1("HAODA"), tr("There's something wrong"));
+		QMessageBox::critical(Q_NULLPTR, QString::fromLatin1("HAODA"), tr("There's something wrong"));
 		//i will improve here some day
 	}
-	m_player->setRenderer(vo);
+	setRenderer(vo);
+}
+void PlayerView::tooglePlayPause()
+{
+	if (m_player->isPlaying())
+	{
+		m_player->pause(!m_player->isPaused());
+	}
+	else {
+		if (mFile.isEmpty())
+			return;
+		if (!m_player->isPlaying())
+			play(mFile);
+		else
+			m_player->play();
+
+	}
 }
 void PlayerView::play(const QString& _filename)
 {
