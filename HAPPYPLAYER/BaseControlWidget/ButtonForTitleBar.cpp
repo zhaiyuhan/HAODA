@@ -121,7 +121,7 @@ void ButtonForTitleBar::paintEvent(QPaintEvent *)
 		pixmap.load(m_loadpath);
 		break;
 	}
-	painter.drawPixmap(0, 0, 16, 16, pixmap);
+	painter.drawPixmap(0, 0, 18, 18, pixmap);
 }
 
 void ButtonForTitleBar::enterEvent(QEvent *)

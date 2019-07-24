@@ -1,5 +1,7 @@
 ﻿<RCC>
     <qresource prefix="/">
         <file>Resources/play.svg</file>
+        <file>Resources/list.svg</file>
+        <file>Resources/volume.svg</file>
     </qresource>
 </RCC>

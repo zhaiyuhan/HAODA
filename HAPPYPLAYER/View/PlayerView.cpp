@@ -3,7 +3,8 @@
 using namespace QtAV;
 PlayerView::PlayerView(QWidget *parent)
 	: BaseView(parent),
-	sliderPos(new QtMaterialSlider)
+	PosSlider(new QtMaterialSlider),
+	VolumeSlider(new QtMaterialSlider)
 {
 	_init_view(1024, 768, QColor(255, 255, 255, 100), false, true, true);
 	//_init_TitleBar()
@@ -32,14 +33,53 @@ PlayerView::PlayerView(QWidget *parent)
 
 	vl->addWidget(m_slider);*/
 
+	m_VolumeButton = new QtMaterialIconButton(QIcon(":/Resources/volume.svg"), this);
+	m_VolumeButton->setIconSize(QSize(20, 20));
+	m_VolumeButton->setColor(QColor("#ffffff"));
 	
-	m_PlayButton = new QtMaterialIconButton(QIcon(":/play.svg:/Resources/play.svg"), this);
+	m_PlayButton = new QtMaterialIconButton(QIcon(":/Resources/play.svg"), this);
 	m_PlayButton->setIconSize(QSize(40, 40));
-	//qDebug() << QIcon(":/play.svg:/Resources/play.svg").isNull();
-	sliderPos->setThumbColor(QColor("#cecece"));//0f7ffa
-	sliderPos->setParent(this);
+	m_PlayButton->setColor(QColor("#ffffff"));
+	//qDebug() << QIcon(":/play.svg:/Resources/pl ay.svg").isNull();
+	m_ListButton = new QtMaterialIconButton(QIcon(":/Resources/list.svg"), this);
+	m_ListButton->setIconSize(QSize(20, 20));
+	m_ListButton->setColor(QColor("#ffffff"));
+	PosSlider->setThumbColor(QColor("#cecece"));//0f7ffa
+	PosSlider->setParent(this);
+	VolumeSlider->setThumbColor(QColor("#0f7ffa"));//0f7ffa
+	VolumeSlider->setParent(this);
+	m_CurrentTimeLabel = new QLabel(this);
+	m_CurrentTimeLabel->setStyleSheet(QString("color:white"));
+	m_CurrentTimeLabel->setToolTip(tr("Current Time"));
+	m_CurrentTimeLabel->setText(QString::fromLatin1("00:00:00"));
+	m_CurrentTimeLabel->setContentsMargins(2, 2, 2, 2);
+	m_TotalTimeLabel = new QLabel(this);
+	m_TotalTimeLabel->setStyleSheet(QString("color:white"));
+	m_TotalTimeLabel->setToolTip(tr("Total Time"));
+	m_TotalTimeLabel->setText(QString::fromLatin1("00:00:00"));
+	m_TitleLabel = new QLabel(this);
 	
-	
+	m_TitleLabel->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+	m_TitleLabel->setText(QString::fromLatin1("HAO DA"));
+	m_TitleLabel->setStyleSheet(QString("font-family: 'Microsoft YaHei'; font: 19pt;color:white"));
+	m_TitleLabel->adjustSize();
+	//every time we change the title,we must use this function
+	const QSize buttonsize = QSize(18, 18);
+	//here are add the window control button
+	btnClose = new ButtonForTitleBar(this);
+	btnClose->setType(CLOSE);
+	btnClose->setFixedSize(buttonsize);
+	btnClose->setToolTip(QString::fromLocal8Bit("关闭"));
+
+	btnMin = new ButtonForTitleBar(this);
+	btnMin->setType(MIN);
+	btnMin->setFixedSize(buttonsize);
+	btnMin->setToolTip(QString::fromLocal8Bit("最小化"));
+
+	btnMax = new ButtonForTitleBar(this);
+	btnMax->setType(FULLSCREEN);
+	btnMax->setFixedSize(buttonsize);
+	btnMax->setToolTip(QString::fromLocal8Bit("全屏"));
 }
 
 PlayerView::~PlayerView()

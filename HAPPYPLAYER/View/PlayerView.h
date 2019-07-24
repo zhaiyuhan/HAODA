@@ -46,10 +46,24 @@ protected:
 	void resizeEvent(QResizeEvent* event)
 	{
 		Q_UNUSED(event);
+		//here are make the layout rule for the window control buttons
+		btnClose->move(LeftValue, 20);
+		btnMin->move(LeftValue + btnClose->width() + SpacingValue, 20);
+		btnMax->move(LeftValue + btnMin->width() + btnMax->width() + 2 * SpacingValue,  20);
+		//here are make the layout rule for the player control buttons
+		m_VolumeButton->resize(20, 20);
+		m_VolumeButton->move(40, event->size().height() - 100);
+		VolumeSlider->resize(140, 25);
+		VolumeSlider->move(50, event->size().height() - 100);
 		m_PlayButton->resize(40, 40);
 		m_PlayButton->move(event->size().width() / 2 - 15, event->size().height() - 120);
-		sliderPos->resize(event->size().width() - 300, 25);
-		sliderPos->move(150, event->size().height() - 40);
+		m_ListButton->resize(20, 20);
+		m_ListButton->move(event->size().width() - 40, event->size().height() - 100);
+		PosSlider->resize(event->size().width() - 300, 25);
+		PosSlider->move(150, event->size().height() - 55);
+		m_CurrentTimeLabel->move(50, event->size().height() - 60);
+		m_TotalTimeLabel->move(event->size().width() - 120, event->size().height() - 60);
+		m_TitleLabel->move(event->size().width() / 2 - (m_TitleLabel->width() / 2), 20);
 	}
 signals:
 	void ready();
@@ -68,12 +82,22 @@ private Q_SLOTS:
 	void updateSlider();
 	void updateSliderUnit();
 private:
+	int SpacingValue = 10;
+	int LeftValue = 30;
+	int TopValue = 14;
+	ButtonForTitleBar* btnMin;
+	ButtonForTitleBar* btnMax;
+	ButtonForTitleBar* btnClose;
 	//here are the play controller needs
+	QtMaterialSlider* const VolumeSlider;
+	QtMaterialIconButton* m_VolumeButton;
 	QtMaterialIconButton* m_PlayButton;
-	QtMaterialSlider* const sliderPos;
-
+	QtMaterialIconButton* m_ListButton;
+	QtMaterialSlider* const PosSlider;
+	QLabel* m_CurrentTimeLabel, * m_TotalTimeLabel, * m_TitleLabel;
 	
 private:
+
 	int m_unit;
 	QString mFile, mTitle;
 	QtAV::VideoOutput* m_vo;

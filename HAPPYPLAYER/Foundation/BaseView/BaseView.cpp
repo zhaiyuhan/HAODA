@@ -74,7 +74,7 @@ void BaseView::_init_titlebar_events(TitleBar *maintitlebar)
 bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
 	Q_UNUSED(eventType)
-		MSG* msg = reinterpret_cast<MSG*>(message);
+	MSG* msg = reinterpret_cast<MSG*>(message);
 	switch (msg->message) {
 
 	case WM_NCCREATE: {

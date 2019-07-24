@@ -204,9 +204,6 @@
     <CustomBuild Include="BaseControlWidget\ButtonForTitleBar.h">
       <Filter>BaseControlWidget</Filter>
     </CustomBuild>
-    <CustomBuild Include="Resources\ButtonForTitleBar.qrc">
-      <Filter>BaseControlWidget</Filter>
-    </CustomBuild>
     <CustomBuild Include="Foundation\CustomShadowEffect.h">
       <Filter>Foundation</Filter>
     </CustomBuild>
@@ -235,6 +232,9 @@
       <Filter>SDK</Filter>
     </CustomBuild>
     <CustomBuild Include="icon.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\ButtonForTitleBar.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
