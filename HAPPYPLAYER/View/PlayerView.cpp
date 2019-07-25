@@ -33,53 +33,8 @@ PlayerView::PlayerView(QWidget *parent)
 
 	vl->addWidget(m_slider);*/
 
-	m_VolumeButton = new QtMaterialIconButton(QIcon(":/Resources/volume.svg"), this);
-	m_VolumeButton->setIconSize(QSize(20, 20));
-	m_VolumeButton->setColor(QColor("#ffffff"));
-	
-	m_PlayButton = new QtMaterialIconButton(QIcon(":/Resources/play.svg"), this);
-	m_PlayButton->setIconSize(QSize(40, 40));
-	m_PlayButton->setColor(QColor("#ffffff"));
-	//qDebug() << QIcon(":/play.svg:/Resources/pl ay.svg").isNull();
-	m_ListButton = new QtMaterialIconButton(QIcon(":/Resources/list.svg"), this);
-	m_ListButton->setIconSize(QSize(20, 20));
-	m_ListButton->setColor(QColor("#ffffff"));
-	PosSlider->setThumbColor(QColor("#cecece"));//0f7ffa
-	PosSlider->setParent(this);
-	VolumeSlider->setThumbColor(QColor("#0f7ffa"));//0f7ffa
-	VolumeSlider->setParent(this);
-	m_CurrentTimeLabel = new QLabel(this);
-	m_CurrentTimeLabel->setStyleSheet(QString("color:white"));
-	m_CurrentTimeLabel->setToolTip(tr("Current Time"));
-	m_CurrentTimeLabel->setText(QString::fromLatin1("00:00:00"));
-	m_CurrentTimeLabel->setContentsMargins(2, 2, 2, 2);
-	m_TotalTimeLabel = new QLabel(this);
-	m_TotalTimeLabel->setStyleSheet(QString("color:white"));
-	m_TotalTimeLabel->setToolTip(tr("Total Time"));
-	m_TotalTimeLabel->setText(QString::fromLatin1("00:00:00"));
-	m_TitleLabel = new QLabel(this);
-	
-	m_TitleLabel->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-	m_TitleLabel->setText(QString::fromLatin1("HAO DA"));
-	m_TitleLabel->setStyleSheet(QString("font-family: 'Microsoft YaHei'; font: 19pt;color:white"));
-	m_TitleLabel->adjustSize();
-	//every time we change the title,we must use this function
-	const QSize buttonsize = QSize(18, 18);
-	//here are add the window control button
-	btnClose = new ButtonForTitleBar(this);
-	btnClose->setType(CLOSE);
-	btnClose->setFixedSize(buttonsize);
-	btnClose->setToolTip(QString::fromLocal8Bit("关闭"));
-
-	btnMin = new ButtonForTitleBar(this);
-	btnMin->setType(MIN);
-	btnMin->setFixedSize(buttonsize);
-	btnMin->setToolTip(QString::fromLocal8Bit("最小化"));
-
-	btnMax = new ButtonForTitleBar(this);
-	btnMax->setType(FULLSCREEN);
-	btnMax->setFixedSize(buttonsize);
-	btnMax->setToolTip(QString::fromLocal8Bit("全屏"));
+	_init_ui();
+	_init_events();
 }
 
 PlayerView::~PlayerView()
@@ -183,6 +138,96 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	menu->addSeparator();
 	menu->addAction(HelpAction);
 	menu->exec(cur.pos());
+}
+void PlayerView::_init_ui()
+{
+	m_VolumeButton = new QtMaterialIconButton(QIcon(":/Resources/volume.svg"), this);
+	m_VolumeButton->setIconSize(QSize(20, 20));
+	m_VolumeButton->setColor(QColor("#ffffff"));
+	m_VolumeButton->setToolTip(tr("Mute"));
+	m_PlayButton = new QtMaterialIconButton(QIcon(":/Resources/play.svg"), this);
+	m_PlayButton->setIconSize(QSize(40, 40));
+	m_PlayButton->setColor(QColor("#ffffff"));
+	m_PlayButton->setToolTip(tr("Play/Pause"));
+	//qDebug() << QIcon(":/play.svg:/Resources/pl ay.svg").isNull();
+	m_ListButton = new QtMaterialIconButton(QIcon(":/Resources/list.svg"), this);
+	m_ListButton->setIconSize(QSize(20, 20));
+	m_ListButton->setColor(QColor("#ffffff"));
+	m_ListButton->setToolTip(tr("Play List"));
+	PosSlider->setThumbColor(QColor("#cecece"));//0f7ffa
+	PosSlider->setParent(this);
+	VolumeSlider->setThumbColor(QColor("#0f7ffa"));//0f7ffa
+	VolumeSlider->setParent(this);
+	m_CurrentTimeLabel = new QLabel(this);
+	m_CurrentTimeLabel->setStyleSheet(QString("color:white"));
+	m_CurrentTimeLabel->setToolTip(tr("Current Time"));
+	m_CurrentTimeLabel->setText(QString::fromLatin1("00:00:00"));
+	m_CurrentTimeLabel->setContentsMargins(2, 2, 2, 2);
+	m_TotalTimeLabel = new QLabel(this);
+	m_TotalTimeLabel->setStyleSheet(QString("color:white"));
+	m_TotalTimeLabel->setToolTip(tr("Total Time"));
+	m_TotalTimeLabel->setText(QString::fromLatin1("00:00:00"));
+	m_TitleLabel = new QLabel(this);
+
+	m_TitleLabel->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+	m_TitleLabel->setText(QString::fromLatin1("HAO DA"));
+	m_TitleLabel->setStyleSheet(QString("font-family: 'Microsoft YaHei'; font: 19pt;color:white"));
+	m_TitleLabel->adjustSize();
+	//every time we change the title,we must use this function
+	const QSize buttonsize = QSize(18, 18);
+	//here are add the window control button
+	btnClose = new ButtonForTitleBar(this);
+	btnClose->setType(CLOSE);
+	btnClose->setFixedSize(buttonsize);
+	btnClose->setToolTip(tr("Close"));
+
+	btnMin = new ButtonForTitleBar(this);
+	btnMin->setType(MIN);
+	btnMin->setFixedSize(buttonsize);
+	btnMin->setToolTip(tr("Minimized"));
+
+	btnMax = new ButtonForTitleBar(this);
+	btnMax->setType(FULLSCREEN);
+	btnMax->setFixedSize(buttonsize);
+	btnMax->setToolTip(tr("FullScreen"));
+}
+void PlayerView::_init_events()
+{
+	connect(btnClose, &QPushButton::clicked, this, [=]() {
+		qApp->exit();
+	});
+	connect(btnMin, &QPushButton::clicked, this, [=]() {
+		btnMin->parentWidget()->showMinimized();
+	});
+	connect(btnMax, &QPushButton::clicked, [=](){
+		btnMax->parentWidget()->isFullScreen() ? btnMax->parentWidget()->showNormal() : btnMax->parentWidget()->showFullScreen();
+		update();
+	});
+	connect(this, &BaseView::isHadFocuse, [=](bool had) {
+		if (had) {
+			btnClose->changeStatus(NORMAL);
+			btnMin->changeStatus(NORMAL);
+			btnMax->changeStatus(NORMAL);
+			update();
+		}
+		else {
+			btnClose->changeStatus(NOSTATUS);
+			btnMin->changeStatus(NOSTATUS);
+			btnMax->changeStatus(NOSTATUS);
+			update();
+		}
+		});
+	connect(this, &BaseView::togglebtnMax, [=](bool iftoggle) {
+		btnMax->toggleResizeButton(iftoggle);
+		if (iftoggle) {
+			btnMax->setToolTip(tr("Restore"));
+		}
+		else {
+			btnMax->setToolTip(tr("FullScreen"));
+		}
+		update();
+		
+		});
 }
 void PlayerView::_init_player()
 {

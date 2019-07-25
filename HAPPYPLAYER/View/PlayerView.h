@@ -47,9 +47,9 @@ protected:
 	{
 		Q_UNUSED(event);
 		//here are make the layout rule for the window control buttons
-		btnClose->move(LeftValue, 20);
-		btnMin->move(LeftValue + btnClose->width() + SpacingValue, 20);
-		btnMax->move(LeftValue + btnMin->width() + btnMax->width() + 2 * SpacingValue,  20);
+		btnClose->move(LeftValue, TopValue);
+		btnMin->move(LeftValue + btnClose->width() + SpacingValue, TopValue);
+		btnMax->move(LeftValue + btnMin->width() + btnMax->width() + 2 * SpacingValue, TopValue);
 		//here are make the layout rule for the player control buttons
 		m_VolumeButton->resize(20, 20);
 		m_VolumeButton->move(40, event->size().height() - 100);
@@ -76,6 +76,8 @@ public Q_SLOTS:
 	void playPause();
 private Q_SLOTS:
 	void setupUI();
+	void _init_ui();
+	void _init_events();
 	void _init_player();
 	void tooglePlayPause();
 	void updateSlider(qint64 value);
@@ -84,7 +86,7 @@ private Q_SLOTS:
 private:
 	int SpacingValue = 10;
 	int LeftValue = 30;
-	int TopValue = 14;
+	int TopValue = 30;
 	ButtonForTitleBar* btnMin;
 	ButtonForTitleBar* btnMax;
 	ButtonForTitleBar* btnClose;

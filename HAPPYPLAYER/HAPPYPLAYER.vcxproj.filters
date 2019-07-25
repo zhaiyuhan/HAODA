@@ -57,7 +57,7 @@
       <Extensions>ts</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="SDK">
+    <Filter Include="Translation Files\SDK">
       <UniqueIdentifier>{04c02909-8f08-4db8-acf4-52ed4f8db3e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -150,10 +150,10 @@
       <Filter>View</Filter>
     </ClCompile>
     <ClCompile Include="common\common.cpp">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClCompile>
     <ClCompile Include="common\Config.cpp">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Config.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -162,10 +162,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="common\qoptions.cpp">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClCompile>
     <ClCompile Include="common\ScreenSaver.cpp">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ScreenSaver.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -185,13 +185,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\common.h">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClInclude>
     <ClInclude Include="common\common_export.h">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClInclude>
     <ClInclude Include="common\qoptions.h">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -226,10 +226,10 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="common\Config.h">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </CustomBuild>
     <CustomBuild Include="common\ScreenSaver.h">
-      <Filter>SDK</Filter>
+      <Filter>Translation Files\SDK</Filter>
     </CustomBuild>
     <CustomBuild Include="icon.qrc">
       <Filter>Resource Files</Filter>
