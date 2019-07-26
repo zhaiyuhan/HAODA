@@ -1,0 +1,6 @@
+<RCC>
+  <qresource>
+    <file>Res_AboutView/AboutProgram.html</file>
+    <file>logo150.png</file>
+  </qresource>
+</RCC>

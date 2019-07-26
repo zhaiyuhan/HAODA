@@ -7,32 +7,20 @@ PlayerView::PlayerView(QWidget *parent)
 	VolumeSlider(new QtMaterialSlider)
 {
 	_init_view(1024, 768, QColor(255, 255, 255, 100), false, true, true);
-	//_init_TitleBar()
-	m_unit = 1000;
-	setupUI();
-	m_player = new AVPlayer(this);
-	
-	QVBoxLayout* vl = new QVBoxLayout();
-	setLayout(vl);
+
+	vl = new QVBoxLayout();
 	vl->setContentsMargins(0,0,0,0);
+	setLayout(vl);
+	//here we will init the player
+	m_player = new AVPlayer(this);
 	m_vo = new VideoOutput(this);
 	if (!m_vo->widget()) {
-		QMessageBox::warning(nullptr, QString::fromLatin1("QtAV error"), tr("Can not create video renderer"));
+		QMessageBox::warning(0, QString::fromLatin1("QtAV error"), tr("Can not create video renderer"));
 		return;
 	}
 	m_player->setRenderer(m_vo);
-	vl->addWidget(m_vo->widget());
-	m_slider = new QSlider(this);
-	m_slider->hide();
-	/*m_slider->setOrientation(Qt::Horizontal);
-	connect(m_slider, SIGNAL(sliderMoved(int)), SLOT(seekBySlider(int)));
-	connect(m_slider, SIGNAL(sliderPressed()), SLOT(seekBySlider()));
-	connect(m_player, SIGNAL(positionChanged(qint64)), SLOT(updateSlider(qint64)));
-	connect(m_player, SIGNAL(started()), SLOT(updateSlider()));
-	connect(m_player, SIGNAL(notifyIntervalChanged()), SLOT(updateSliderUnit()));
-
-	vl->addWidget(m_slider);*/
-
+	vl->addWidget(m_vo->widget());;
+		
 	_init_ui();
 	_init_events();
 }
@@ -40,11 +28,7 @@ PlayerView::PlayerView(QWidget *parent)
 PlayerView::~PlayerView()
 {
 }
-void PlayerView::setupUI()
-{
-	
-	QTimer::singleShot(0, this, SLOT(_init_player));
-}
+
 void PlayerView::contextMenuEvent(QContextMenuEvent*)
 {
 	QCursor cur = this->cursor();
@@ -54,6 +38,10 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	menu->addMenu(HAODAMenu);
 	QAction* AboutHAODAAction = new QAction(tr("About HAODA"), this);
 	HAODAMenu->addAction(AboutHAODAAction);
+	connect(AboutHAODAAction, &QAction::triggered, this, [=]() {
+		AboutView* _aboutview = new AboutView();
+		_aboutview->show();
+	});
 	HAODAMenu->addSeparator();
 	QAction* PreferenceAction = new QAction(tr("Preference"), this);
 	HAODAMenu->addAction(PreferenceAction);
@@ -66,13 +54,13 @@ void PlayerView::contextMenuEvent(QContextMenuEvent*)
 	menu->addMenu(FileMenu);
 	QAction* OpenFileAction = new QAction(tr("Open"), this);
 	FileMenu->addAction(OpenFileAction);
-	connect(OpenFileAction, &QAction::triggered, this, [=]() {openFile(); });
+	connect(OpenFileAction, &QAction::triggered, this, [=]() { openFile(); });
 	QAction* OpenUrlAction = new QAction(tr("Open Url"), this);
 	FileMenu->addAction(OpenUrlAction);
 	FileMenu->addSeparator();
 	QAction* OpenFileActionX = new QAction(tr("Open in new Window"), this);
 	FileMenu->addAction(OpenFileActionX);
-	connect(OpenFileAction, &QAction::triggered, this, [=]() {openFile(); });
+	connect(OpenFileActionX, &QAction::triggered, this, [=]() { /*openFile();*/ });
 	QAction* OpenUrlActionX = new QAction(tr("Open Url in new Window"), this);
 	FileMenu->addAction(OpenUrlActionX);
 	FileMenu->addSeparator();
@@ -216,7 +204,7 @@ void PlayerView::_init_events()
 			btnMax->changeStatus(NOSTATUS);
 			update();
 		}
-		});
+	});
 	connect(this, &BaseView::togglebtnMax, [=](bool iftoggle) {
 		btnMax->toggleResizeButton(iftoggle);
 		if (iftoggle) {
@@ -226,35 +214,30 @@ void PlayerView::_init_events()
 			btnMax->setToolTip(tr("FullScreen"));
 		}
 		update();
-		
-		});
+	});
+	/*connect(m_PlayButton, &QPushButton::clicked, [=]() {
+		togglePlayPause();
+		qDebug() << "true";
+	});*/m_PlayButton->installEventFilter(this);
+	connect(m_player, &AVPlayer::paused, [=](bool p) {
+		if (p) { m_PlayButton->setIcon(QIcon(":/Resources/play.svg")); }
+		else { m_PlayButton->setIcon(QIcon(":/Resources/pause.svg")); }
+	});
 }
-void PlayerView::_init_player()
+void PlayerView::togglePlayPause()
 {
-	m_player = new AVPlayer(this);
-	VideoRenderer* vo = VideoRenderer::create((VideoRendererId)property("rendererId").toInt());
-	if (!vo || !vo->isAvailable() || !vo->widget())
-	{
-		QMessageBox::critical(Q_NULLPTR, QString::fromLatin1("HAODA"), tr("There's something wrong"));
-		//i will improve here some day
-	}
-	setRenderer(vo);
-}
-void PlayerView::tooglePlayPause()
-{
-	if (m_player->isPlaying())
-	{
-		m_player->pause(!m_player->isPaused());
-	}
-	else {
-		if (mFile.isEmpty())
-			return;
-		if (!m_player->isPlaying())
-			play(mFile);
-		else
-			m_player->play();
+	if (m_player->isPlaying()) {
 
-	}
+        m_player->pause(!m_player->isPaused());
+    } else {
+        if (mFile.isEmpty())
+            return;
+        if (!m_player->isPlaying())
+            play(mFile);
+        else
+            m_player->play();
+        m_PlayButton->setIcon(QIcon(":/Resources/pause.svg"));
+    }
 }
 void PlayerView::play(const QString& _filename)
 {
@@ -264,12 +247,18 @@ void PlayerView::play(const QString& _filename)
 	{
 		mTitle = QFileInfo(mFile).fileName();
 	}
+	
 	//you will set the window title here
+	m_TitleLabel->setText(mTitle);
+	m_TitleLabel->adjustSize();
+	m_TitleLabel->move(this->size().width() / 2 - (m_TitleLabel->width() / 2), 20);
 	m_player->stop();
 	m_player->play(_filename);
+	m_PlayButton->setIcon(QIcon(":/Resources/pause.svg"));
 }
 void PlayerView::play(const QUrl& _url)
 {
+	play(QUrl::fromPercentEncoding(_url.toEncoded()));
 }
 void PlayerView::openFile()
 {
@@ -279,40 +268,5 @@ void PlayerView::openFile()
 	play(file);
 }
 
-void PlayerView::seekBySlider(int value)
-{
-	if (!m_player->isPlaying())
-		return;
-	m_player->seek(qint64(value * m_unit));
-}
 
-void PlayerView::seekBySlider()
-{
-	seekBySlider(m_slider->value());
-}
 
-void PlayerView::playPause()
-{
-	if (!m_player->isPlaying()) {
-		m_player->play();
-		return;
-	}
-	m_player->pause(!m_player->isPaused());
-}
-
-void PlayerView::updateSlider(qint64 value)
-{
-	m_slider->setRange(0, int(m_player->duration() / m_unit));
-	m_slider->setValue(int(value / m_unit));
-}
-
-void PlayerView::updateSlider()
-{
-	updateSlider(m_player->position());
-}
-
-void PlayerView::updateSliderUnit()
-{
-	m_unit = m_player->notifyInterval();
-	updateSlider();
-}

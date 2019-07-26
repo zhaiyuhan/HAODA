@@ -21,6 +21,7 @@ public:
 		bool ifEnableWindowShadow,
 		bool ifEnableAnimation);
 	void createTitleBar(int h,QColor c,bool shadow);
+	void setFixed(bool _ifFixed) { ifFixed = _ifFixed; }
 protected:
 	void _init_TitleBar(TitleBar * t, int xheight, QColor background, bool ifEnableShadow);
 	void _init_titlebar_events(TitleBar *maintitlebar);
@@ -31,10 +32,7 @@ protected:
 	{
 		this->setAttribute(Qt::WA_Mapped);
 		QWidget::showEvent(event);
-
 	}
-
-
 	void mousePressEvent(QMouseEvent* event)
 	{
 #ifdef Q_OS_WIN
@@ -79,7 +77,7 @@ private:
 	void setWidth(int width);
 	int getWidth();
 	int m_height, m_width;
-
+	bool ifFixed = false;
 
 	TitleBar *m_maintitlebar;
 	

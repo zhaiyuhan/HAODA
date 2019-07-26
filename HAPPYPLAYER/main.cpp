@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	translator.load("happyplayer_zh.qm");
 	a.installTranslator(&translator);
 	PlayerView w;
+	//w.setProperty("rendererId", rendererId_from_opt_name(vo.toLower()));
 	w.show();
 	return a.exec();
 }

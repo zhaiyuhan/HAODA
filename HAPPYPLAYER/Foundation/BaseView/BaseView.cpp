@@ -74,7 +74,7 @@ void BaseView::_init_titlebar_events(TitleBar *maintitlebar)
 bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * result)
 {
 	Q_UNUSED(eventType)
-	MSG* msg = reinterpret_cast<MSG*>(message);
+	MSG* msg = reinterpret_cast<MSG*>(message);	
 	switch (msg->message) {
 
 	case WM_NCCREATE: {
@@ -92,7 +92,7 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 		return true;
 	}
 	case WM_NCHITTEST:
-	{
+	{		
 		*result = 0;
 		const LONG border_width = 8; //in pixels
 		RECT winrect;
@@ -206,6 +206,7 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 		break;
 	}
 	case WM_SIZE: {
+
 		RECT winrect;
 		GetClientRect(msg->hwnd, &winrect);
 
@@ -227,10 +228,13 @@ bool BaseView::nativeEvent(const QByteArray & eventType, void * message, long * 
 		emit isHadFocuse(false);
 		break;
 	case WM_LBUTTONDBLCLK:
-		if (Qt::WindowFullScreen == windowState())
-			this->showNormal();
-		if (Qt::WindowFullScreen != windowState())
-		this->isMaximized() ? this->showNormal() : this->showMaximized();
+		if (!ifFixed)
+		{
+			if (Qt::WindowFullScreen == windowState())
+				this->showNormal();
+			if (Qt::WindowFullScreen != windowState())
+				this->isMaximized() ? this->showNormal() : this->showMaximized();
+		}
 		break;
 	default:
 		return QWidget::nativeEvent(eventType, message, result);

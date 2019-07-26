@@ -5,6 +5,7 @@
 #include <qtmaterialiconbutton.h>
 #include <qtmaterialslider.h>
 
+#include "View/AboutView.h"
 
 class PlayerView : public BaseView
 {
@@ -13,7 +14,7 @@ class PlayerView : public BaseView
 public:
 	explicit PlayerView(QWidget *parent = Q_NULLPTR);
 	~PlayerView();
-	bool setRenderer(QtAV::VideoRenderer* renderer) 
+	/*bool setRenderer(QtAV::VideoRenderer* renderer) 
 	{
 		if (!renderer)
 			return false;
@@ -25,7 +26,7 @@ public:
 		renderer->widget()->setMouseTracking(true);
 		m_player->setRenderer(renderer);
 		QWidget* r = Q_NULLPTR;
-		if (m_renderer)
+		if (renderer)
 			r = renderer->widget();//release the old renderer
 		if (r)
 		{
@@ -39,8 +40,10 @@ public:
 				delete r;
 			}r = Q_NULLPTR;
 		}// next add the widget
+		m_Renderer = renderer;
+		vl->addWidget(renderer->widget());
 		return true;
-}
+}*/
 protected:
 	void contextMenuEvent(QContextMenuEvent*);
 	void resizeEvent(QResizeEvent* event)
@@ -65,25 +68,52 @@ protected:
 		m_TotalTimeLabel->move(event->size().width() - 120, event->size().height() - 60);
 		m_TitleLabel->move(event->size().width() / 2 - (m_TitleLabel->width() / 2), 20);
 	}
+	void closeEvent(QCloseEvent* event)
+	{
+		Q_UNUSED(event);
+		if (m_player)
+			m_player->stop();
+		qApp->quit();
+	}
 signals:
 	void ready();
 public Q_SLOTS:
+	bool eventFilter(QObject* watched, QEvent* event)
+	{
+		if (watched == m_PlayButton)
+		{
+			if (event->type() == QEvent::MouseButtonPress)
+			{
+				QMouseEvent* mouseEvent = (QMouseEvent*)event;
+				if (mouseEvent->buttons() & Qt::LeftButton)
+				{
+					togglePlayPause();
+					qDebug() << m_player->isPlaying();
+				}
+			}
+			else if (event->type() == QEvent::MouseButtonDblClick)
+			{
+				QMouseEvent* mouseEvent = (QMouseEvent*)event;
+				if (mouseEvent->buttons() & Qt::LeftButton)
+				{
+					return 0;
+				}
+			}
+		}
+		return QWidget::eventFilter(watched, event);
+	}
 	void play(const QString& _filename);//play from the local file
 	void play(const QUrl& _url);//play from the internet
 	void openFile();
-	void seekBySlider(int value);
-	void seekBySlider();
-	void playPause();
 private Q_SLOTS:
-	void setupUI();
 	void _init_ui();
 	void _init_events();
-	void _init_player();
-	void tooglePlayPause();
-	void updateSlider(qint64 value);
-	void updateSlider();
-	void updateSliderUnit();
+	void togglePlayPause();
+
+	void onStartPlay();//when start play what we should do
+	void onStopPlay();//when stop play what we should do
 private:
+	QVBoxLayout* vl;
 	int SpacingValue = 10;
 	int LeftValue = 30;
 	int TopValue = 30;
@@ -100,13 +130,10 @@ private:
 	
 private:
 
-	int m_unit;
 	QString mFile, mTitle;
-	QtAV::VideoOutput* m_vo;
 	QtAV::AVPlayer* m_player;
-	QtAV::VideoRenderer* m_renderer;
+	QtAV::VideoOutput* m_vo;
 	Menu* menu;
-	QSlider* m_slider;
 	
 
 

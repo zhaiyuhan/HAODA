@@ -3,5 +3,6 @@
         <file>Resources/play.svg</file>
         <file>Resources/list.svg</file>
         <file>Resources/volume.svg</file>
+        <file>Resources/pause.svg</file>
     </qresource>
 </RCC>

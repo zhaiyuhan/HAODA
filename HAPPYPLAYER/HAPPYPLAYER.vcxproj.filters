@@ -50,7 +50,9 @@
       <UniqueIdentifier>{7be72580-7462-4801-8303-91a8a515fed4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{e5e871ff-d2ff-4e86-968f-7dfac817765f}</UniqueIdentifier>
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <ParseFiles>true</ParseFiles>
     </Filter>
     <Filter Include="Translation Files">
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
@@ -176,6 +178,18 @@
     <ClCompile Include="GeneratedFiles\qrc_icon.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_AboutView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_AboutView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="View\AboutView.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_AboutView.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foundation\WindowCompositionAttribute.h">
@@ -192,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="common\qoptions.h">
       <Filter>Translation Files\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_AboutView.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +254,15 @@
     <CustomBuild Include="Resources\ButtonForTitleBar.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="View\AboutView.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="View\AboutView.h">
+      <Filter>View</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\AboutView.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HAPPYPLAYER.rc" />
@@ -245,5 +271,10 @@
     <None Include="happyplayer_zh.ts">
       <Filter>Translation Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\logo150.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
