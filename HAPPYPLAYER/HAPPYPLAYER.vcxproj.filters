@@ -190,6 +190,24 @@
     <ClCompile Include="GeneratedFiles\qrc_AboutView.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_IconButton.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_IconButton.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseControlWidget\IconButton.cpp">
+      <Filter>BaseControlWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_OverlayWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_OverlayWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Foundation\OverlayWidget.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Foundation\WindowCompositionAttribute.h">
@@ -263,6 +281,12 @@
     <CustomBuild Include="Resources\AboutView.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="BaseControlWidget\IconButton.h">
+      <Filter>BaseControlWidget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Foundation\OverlayWidget.h">
+      <Filter>Foundation</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HAPPYPLAYER.rc" />
@@ -271,6 +295,7 @@
     <None Include="happyplayer_zh.ts">
       <Filter>Translation Files</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\logo150.png">

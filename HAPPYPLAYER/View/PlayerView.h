@@ -109,9 +109,9 @@ private Q_SLOTS:
 	void _init_ui();
 	void _init_events();
 	void togglePlayPause();
+	//void onStartPlay();//when start play what we should do
+	//void onStopPlay();//when stop play what we should do
 
-	void onStartPlay();//when start play what we should do
-	void onStopPlay();//when stop play what we should do
 private:
 	QVBoxLayout* vl;
 	int SpacingValue = 10;
