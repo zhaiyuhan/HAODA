@@ -100,7 +100,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5WinExtrasd.lib;QtAVd1.lib;QtAVWidgetsd1.lib;Qt5Sqld.lib;Qt5Xmld.lib;D:\Project\HAODA\x64\components.lib;D:\Project\HAODA\x64\commond.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5WinExtrasd.lib;QtAVd1.lib;QtAVWidgetsd1.lib;Qt5Sqld.lib;Qt5Xmld.lib;D:\Project\build-components-Desktop_Qt_5_14_1_MSVC2017_64bit-Debug\debug\QtMaterial.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>
       </Version>
       <TargetMachine>MachineX64</TargetMachine>
